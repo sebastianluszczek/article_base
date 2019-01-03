@@ -1,0 +1,14 @@
+{
+  "name": "article_base",
+  "version": "1.0.0",
+  "description": "node.js, express & mongoDB application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Sebastian Łuszczek",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
