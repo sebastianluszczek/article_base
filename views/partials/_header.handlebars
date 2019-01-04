@@ -1,0 +1,32 @@
+<nav class="grey darken-3">
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="/articles" class="brand-logo center"></i> ArticleBase</a>
+            <a href="#" data-target="main-menu" class="sidenav-trigger show-on-large"><i class="fas fa-bars"></i></a>
+            {{!-- right nav --}}
+            <ul class="right hide-on-med-and-down">
+                {{#if user}}
+                <li><a href="/dashboard">Welcome {{user.firstName}}</a></li>
+                <li><a href="/auth/logout"><i class="fas fa-sign-out-alt fa-sm"></i> Logout</a></li>
+                {{else}}
+                <li><a href="/articles"><i class="fas fa-book fa-sm"></i> Public Articles</a></li>
+                {{/if}}
+            </ul>
+            {{!-- side menu --}}
+            <ul class="sidenav" id="main-menu">
+                {{#if user}}
+
+                {{else}}
+                <li><a href="/auth/google" class="red darken-1 btn"> <i class="fab fa-google left"></i> Login with Google</a></li>
+                {{/if}}
+                <li><a href="/articles"><i class="fas fa-book"></i> Public Articles</a></li>
+                <li class="divider"></li>
+                {{#if user}}
+                <li><a href="/dashboard"><i class="fas fa-cog"></i> Dashboard</a></li>
+                <li><a href="/stories/my"><i class="fas fa-user"></i> My Stories</a></li>
+                <li><a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+</nav>
