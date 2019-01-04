@@ -1,1 +1,40 @@
-<h1>Edit</h1>
+<h1>Edit Article</h1>
+<div class="row">
+    <form action="/articles/{{article.id}}?_method=PUT" method="POST" class="col s12">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="row">
+            <div class="input-field col l6 s12">
+                <input type="text" name="title" value="{{article.title}}">
+                <label for="title">Title</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col l6 s12">
+                <select name="status">
+                    {{#select article.status}}
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                    <option value="unpublished">Unpublished</option>
+                    {{/select}}
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+        <div class="row">
+            <p>
+                <label>
+                    <input type="checkbox" name="allowComment" class="filled-in" id="filled-in-box"
+                        {{#if article.allowComment}} checked="checked" {{/if}}>
+                    <span>Allow Comments</span>
+                </label>
+            </p>
+        </div>
+        <div class="row">
+            <div class="input-field">
+                <p class="grey-text">Article:</p>
+                <textarea name="body" cols="30" rows="10" class="materialize-textarea">{{article.body}}</textarea>
+            </div>
+        </div>
+        <input type="submit" value="Submit" class="btn white-text">
+    </form>
+</div>

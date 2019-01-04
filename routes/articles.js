@@ -18,19 +18,41 @@ router.get('/', (req, res) => {
             res.render('articles/index', {
                 articles: articles
             });
-            console.log(articles);
         })
 });
+
+// show single story
+router.get('/show/:id', (req, res) => {
+    Article.findOne({
+            _id: req.params.id
+        })
+        .populate('user')
+        .then(article => {
+            res.render('articles/show', {
+                article: article
+            })
+        });
+})
 
 // add articles form
 router.get('/add', ensureAuthentication, (req, res) => {
     res.render('articles/add')
 });
 
+// edit articles form
+router.get('/edit/:id', ensureAuthentication, (req, res) => {
+    Article.findOne({
+            _id: req.params.id
+        })
+        .then(article => {
+            res.render('articles/edit', {
+                article: article
+            })
+        });
+});
+
 // process add story
 router.post('/', (req, res) => {
-    console.log(req.body);
-
     let allowComment;
     if (req.body.allowComment) {
         allowComment = true;
@@ -51,6 +73,42 @@ router.post('/', (req, res) => {
         .save()
         .then(story => {
             res.redirect(`/articles/show/${story.id}`)
+        })
+});
+
+// edit form
+router.put('/:id', (req, res) => {
+    Article.findOne({
+            _id: req.params.id
+        })
+        .then(article => {
+            let allowComment;
+            if (req.body.allowComment) {
+                allowComment = true;
+            } else {
+                allowComment = false;
+            }
+
+            // new values
+            article.title = req.body.title;
+            article.body = req.body.body;
+            article.status = req.body.status;
+            article.allowComment = allowComment;
+
+            article.save()
+                .then(story => {
+                    res.redirect('/dashboard');
+                })
+        });
+});
+
+// delete article
+router.delete('/:id', (req, res) => {
+    Article.deleteOne({
+            _id: req.params.id
+        })
+        .then(() => {
+            res.redirect('/dashboard');
         })
 })
 

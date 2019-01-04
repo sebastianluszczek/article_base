@@ -1,2 +1,32 @@
 <h1>Welcome {{user.firstName}}</h1>
 <h4>Your Articles: </h4>
+{{#if articles}}
+<table class="striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each articles}}
+        <tr>
+            <td><a href="/articles/show/{{id}}">{{title}}</a></td>
+            <td>{{formateDate data 'MMMM Do YYYY'}}</td>
+            <td><span class="dash-status">{{status}}</span></td>
+            <td>
+                <a href="/articles/edit/{{id}}" class="btn grey left-align"><i class="fas fa-pen"></i>  Edit</a>
+                <form action="/articles/{{id}}?_method=DELETE" method="POST" id="delete-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn red"> <i class="fas fa-eraser"></i> Delete</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>You have not added any articles yet</p>
+{{/if}}

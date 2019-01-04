@@ -3,14 +3,22 @@
     {{#each articles}}
     <div class="col s12 m4">
         <div class="card">
+            <div class="card-image">
+                <a href="/articles/edit/{{id}}" class="btn-floating halfway-fab red">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+            </div>
             <div class="card-content center-align">
                 <h5>{{title}}</h5>
-                <p class="story-text">{{{body}}}</p>
+                <p class="story-text">{{stripTags (truncate body 100)}}</p>
                 <br>
                 <div class="chip">
                     <img src="{{user.image}}">
                     {{user.firstName}} {{user.lastName}}
                 </div>
+            </div>
+            <div class="card-action center-align">
+                <a href="/articles/show/{{id}}" class="btn grey">Read more</a>
             </div>
         </div>
     </div>
