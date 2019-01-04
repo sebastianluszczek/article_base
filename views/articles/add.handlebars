@@ -1,0 +1,36 @@
+<h1>Add Article</h1>
+<div class="row">
+    <form action="/articles" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field col l6 s12">
+                <input type="text" name="title">
+                <label for="title">Title</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col l6 s12">
+                <select name="status">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                    <option value="unpublished">Unpublished</option>
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+        <div class="row">
+            <p>
+                <label>
+                    <input type="checkbox" name="allowComment" class="filled-in" id="filled-in-box" checked="checked">
+                    <span>Allow Comments</span>
+                </label>
+            </p>
+        </div>
+        <div class="row">
+            <div class="input-field">
+                <p class="grey-text">Article:</p>
+                <textarea name="body" cols="30" rows="10" class="materialize-textarea"></textarea>
+            </div>
+        </div>
+        <input type="submit" value="Submit" class="btn">
+    </form>
+</div>
