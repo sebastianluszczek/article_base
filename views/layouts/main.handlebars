@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Article Base</title>
 </head>
 
@@ -18,13 +19,14 @@
             {{{body}}}
         </div>
     </main>
+    {{#if user}}
+    {{> _add-btn}}
+    {{/if}}
+    {{> _footer}}
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var sidenav_inst = M.Sidenav.init(document.querySelectorAll('.sidenav'), {});
-        });
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 
 </html>

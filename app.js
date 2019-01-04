@@ -1,10 +1,15 @@
 const express = require('express');
+const path = require('path');
 const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 
+//load db models
+require('./models/User');
+require('./models/Article');
 
 const port = process.env.PORT || 5000;
 
@@ -14,6 +19,7 @@ require('./config/passport')(passport);
 // load routes
 const auth = require('./routes/auth');
 const index = require('./routes/index');
+const articles = require('./routes/articles');
 
 // map global promises
 mongoose.Promise = global.Promise;
@@ -31,6 +37,12 @@ mongoose.connect(db, {
     });
 
 const app = express();
+
+// body-parser middleware
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(bodyParser.json());
 
 // handlebars middleware
 app.engine('handlebars', exphbs({
@@ -56,11 +68,15 @@ app.use(passport.session());
 app.use((req, res, next) => {
     res.locals.user = req.user || null;
     next();
-})
+});
+
+// set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // use routes
 app.use('/auth', auth);
 app.use('/', index);
+app.use('/articles', articles);
 
 
 app.listen(port, () => {
