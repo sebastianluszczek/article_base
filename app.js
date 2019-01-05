@@ -30,7 +30,8 @@ const {
     truncate,
     stripTags,
     formateDate,
-    select
+    select,
+    editIcon
 } = require('./helpers/hbs');
 
 // mongoose connect
@@ -62,7 +63,8 @@ app.engine('handlebars', exphbs({
         truncate: truncate,
         stripTags: stripTags,
         formateDate: formateDate,
-        select: select
+        select: select,
+        editIcon: editIcon
     },
     defaultLayout: 'main'
 }));

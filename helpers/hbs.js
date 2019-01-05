@@ -19,5 +19,17 @@ module.exports = {
     },
     select: function (selected, options) {
         return options.fn(this).replace(new RegExp(' value=\"' + selected + '\"'), '$& selected="selected"').replace(new RegExp('>' + selected + '</option>'), 'selected="selected"$&');
+    },
+    editIcon: function (articleUser, loggedUser, articleId, floating = true) {
+        if (articleUser == loggedUser) {
+            if (floating) {
+                return `<a href="/articles/edit/${articleId}"
+                class="btn-floating halfway-fab red"><i class="fas fa-pencil-alt"></i></a>`
+            } else {
+                return `<a href="/articles/edit/${articleId}"><i class="fas fa-pencil-alt"></i></a>`
+            }
+        } else {
+            return '';
+        }
     }
 }

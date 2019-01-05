@@ -14,6 +14,9 @@ router.get('/', (req, res) => {
             status: 'public'
         })
         .populate('user')
+        .sort({
+            date: 'desc'
+        })
         .then(articles => {
             res.render('articles/index', {
                 articles: articles
@@ -27,12 +30,55 @@ router.get('/show/:id', (req, res) => {
             _id: req.params.id
         })
         .populate('user')
+        .populate('comments.commentUser')
         .then(article => {
-            res.render('articles/show', {
-                article: article
-            })
+            if (story.status === 'public') {
+                res.render('articles/show', {
+                    article: article
+                });
+            } else {
+                if (req.user) {
+                    if (req.user.id === story.user._id) {
+                        res.render('articles/show', {
+                            article: article
+                        });
+                    } else {
+                        res.redirect('/articles');
+                    }
+                } else {
+                    res.redirect('/articles');
+                }
+            }
         });
-})
+});
+
+// list articles from user
+router.get('/user/:userId', (req, res) => {
+    Article.find({
+            user: req.params.userId,
+            status: 'public'
+        })
+        .populate('user')
+        .then(articles => {
+            res.render('articles/index', {
+                articles: articles
+            })
+        })
+});
+
+// logged user stories
+router.get('/my', ensureAuthentication, (req, res) => {
+    Article.find({
+            user: req.user.id
+        })
+        .populate('user')
+        .then(articles => {
+            res.render('articles/index', {
+                articles: articles
+            })
+        })
+});
+
 
 // add articles form
 router.get('/add', ensureAuthentication, (req, res) => {
@@ -45,9 +91,13 @@ router.get('/edit/:id', ensureAuthentication, (req, res) => {
             _id: req.params.id
         })
         .then(article => {
-            res.render('articles/edit', {
-                article: article
-            })
+            if (article.user != req.user.id) {
+                res.redirect('/articles');
+            } else {
+                res.render('articles/edit', {
+                    article: article
+                });
+            }
         });
 });
 
@@ -109,6 +159,27 @@ router.delete('/:id', (req, res) => {
         })
         .then(() => {
             res.redirect('/dashboard');
+        })
+});
+
+// add comment
+router.post('/comment/:id', (req, res) => {
+    Article.findOne({
+            _id: req.params.id
+        })
+        .then(article => {
+            const newComment = {
+                commentBody: req.body.commentBody,
+                commentUser: req.user.id
+            }
+
+            // add to comment array
+            article.comments.unshift(newComment);
+
+            article.save()
+                .then(article => {
+                    res.redirect(`/articles/show/${article.id}`);
+                })
         })
 })
 
