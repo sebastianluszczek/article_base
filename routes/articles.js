@@ -32,13 +32,13 @@ router.get('/show/:id', (req, res) => {
         .populate('user')
         .populate('comments.commentUser')
         .then(article => {
-            if (article.status === 'public') {
+            if (article.status == 'public') {
                 res.render('articles/show', {
                     article: article
                 });
             } else {
                 if (req.user) {
-                    if (req.user.id === story.user._id) {
+                    if (req.user.id == article.user._id) {
                         res.render('articles/show', {
                             article: article
                         });
